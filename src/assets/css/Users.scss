@@ -63,10 +63,16 @@
     .users-open{
         margin: 1rem  21rem 0 21rem;
         transition-delay: 0ms;
+        -webkit-transition-delay: 0ms;
+        -moz-transition-delay: 0ms;
+        -o-transition-delay: 0ms;
     }
     .users-collapse{
         margin: 1rem 21rem 0 7rem;
         transition-delay: 200ms;
+        -webkit-transition-delay: 200ms;
+        -moz-transition-delay: 200ms;
+        -o-transition-delay: 200ms;
     }
 }
 
