@@ -7,7 +7,16 @@ import SearchBar from '../components/searchbar';
 import Footer from '../components/footer';
 
 const Admin = () => {
-    const [bar, setBar] = React.useState(true);
+    const desktop =  window.matchMedia("(min-width: 900px)");
+    const [bar, setBar] = React.useState(false);
+
+    React.useEffect(() => {
+        if(desktop.matches){
+            setBar(true);
+        }
+    }, [bar, desktop.matches])
+    
+
     const [search, setSearch] = React.useState(false);
     return(
         <div className="admin">

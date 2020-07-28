@@ -5,6 +5,42 @@
     .search-icon{
         color: #00508c;
     }
+    .searchbar-body{
+        form{
+            .button-group{
+                margin: 1rem 0;
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
+                button{
+                    // right: 1rem;
+                    border: none;
+                    height: 2.25rem;
+                    width: 6.5rem;
+                    border-radius: 3px;
+                    text-decoration: none;
+                    color: floralwhite;
+                    box-shadow: 0 0 5px #ccc;
+                }
+                .filtrar{
+                    background-image: linear-gradient(to right, #67d428, #008223);
+                    color: white;
+                }
+                .Limpiar{
+                    background: white;
+                    border: solid 1px #67d428;
+                    color: #67d428;
+                }
+
+                button:hover{
+                    background: #4030d1;
+                    cursor: pointer;
+                    color: white;
+                    box-shadow: none;
+                }
+            }
+        }
+    }
 }
 
 @media(min-width:1360px){

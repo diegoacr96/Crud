@@ -446,6 +446,36 @@
 .searchbar .search-icon {
   color: #00508c;
 }
+.searchbar .searchbar-body form .button-group {
+  margin: 1rem 0;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.searchbar .searchbar-body form .button-group button {
+  border: none;
+  height: 2.25rem;
+  width: 6.5rem;
+  border-radius: 3px;
+  text-decoration: none;
+  color: floralwhite;
+  box-shadow: 0 0 5px #ccc;
+}
+.searchbar .searchbar-body form .button-group .filtrar {
+  background-image: linear-gradient(to right, #67d428, #008223);
+  color: white;
+}
+.searchbar .searchbar-body form .button-group .Limpiar {
+  background: white;
+  border: solid 1px #67d428;
+  color: #67d428;
+}
+.searchbar .searchbar-body form .button-group button:hover {
+  background: #4030d1;
+  cursor: pointer;
+  color: white;
+  box-shadow: none;
+}
 
 @media (min-width: 1360px) {
   .searchbar {

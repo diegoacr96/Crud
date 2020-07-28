@@ -35,7 +35,10 @@ const SearchBar = ({setSearch, search}) => {
                     <input type="tel" name="tel" />
                     <label htmlFor="email">Correo electrónico</label>
                     <input type="email" name="email" />
-
+                    <div className="button-group">
+                        <button type="button" className="filtrar">Filtrar</button>
+                        <button type="button" className="Limpiar">Limpiar</button>
+                    </div>
                 </form>
             </div>
         </div>
