@@ -1,0 +1,15 @@
+@mixin collapse{
+    -webkit-transition-delay: 200ms, 0ms, 0ms;
+    -moz-transition-delay: 200ms, 0ms, 0ms;
+    -o-transition-delay: 200ms, 0ms, 0ms;
+    transition-delay: 200ms, 0ms, 0ms;
+    transition-property: width, opacity, visibility;
+}
+
+@mixin open() {
+    -webkit-transition-delay: 0ms, 200ms, 200ms;
+    -moz-transition-delay: 0ms, 200ms, 200ms;
+    -o-transition-delay: 0ms, 200ms, 200ms;
+    transition-delay: 0ms, 200ms, 200ms;
+    transition-property: width, opacity, visibility;
+}
