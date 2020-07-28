@@ -1,0 +1,14 @@
+.footer{
+    position: absolute;
+    width: 100%;
+    margin: 0;
+    height: 3rem;
+    bottom: 0;
+    background: white;
+    display: flex;
+    justify-content: flex-end;
+    z-index: -1;
+    .year{
+        margin: 1rem;
+    }
+}

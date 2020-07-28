@@ -386,10 +386,21 @@
 
 @media (min-width: 1350px) {
   .users-container {
-    margin: 1rem 21rem 0 21rem;
+    transition: 200ms;
+    transition-property: margin;
   }
   .users-container table {
     width: 100%;
+  }
+
+  .users-open {
+    margin: 1rem 21rem 0 21rem;
+    transition-delay: 0ms;
+  }
+
+  .users-collapse {
+    margin: 1rem 21rem 0 7rem;
+    transition-delay: 200ms;
   }
 }
 @media (min-width: 900px) and (max-width: 1349px) {
@@ -541,6 +552,20 @@
   .searchbar-collapse .searchbar-header, .searchbar-collapse .searchbar-body {
     display: none;
   }
+}
+.footer {
+  position: absolute;
+  width: 100%;
+  margin: 0;
+  height: 3rem;
+  bottom: 0;
+  background: white;
+  display: flex;
+  justify-content: flex-end;
+  z-index: -1;
+}
+.footer .year {
+  margin: 1rem;
 }
 
 /*# sourceMappingURL=styles.css.map */

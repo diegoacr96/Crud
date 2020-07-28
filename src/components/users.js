@@ -60,10 +60,10 @@ const Rols = () => {
     ))
 }
 
-const Users = () => {
+const Users = ({bar}) => {
     const table_hader = ["Nombre", "Apellidos", "Identificación(C.C)", "Rol asociado", "Estado", "Telefono", "Correo electrónico", "Acción"]
     return(
-        <div className="users-container" >
+        <div className={bar?"users-container users-open": "users-container users-collapse"} >
             <div className="users-header" >
                 <div className="users-title">
                     <i className="fas fa-users"></i>

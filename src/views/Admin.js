@@ -4,6 +4,7 @@ import Sidebar from '../components/sidebar';
 import Navbar from '../components/navbar';
 import Users from '../components/users';
 import SearchBar from '../components/searchbar';
+import Footer from '../components/footer';
 
 const Admin = () => {
     const [bar, setBar] = React.useState(true);
@@ -12,8 +13,9 @@ const Admin = () => {
         <div className="admin">
             <Sidebar setBar={setBar} bar={bar} />
             <Navbar setBar={setBar} bar={bar} />
-            <Users />
+            <Users bar={bar} />
             <SearchBar setSearch={setSearch} search={search} />
+            <Footer />
         </div>
     )
 }
