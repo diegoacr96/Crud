@@ -1,0 +1,154 @@
+.login-background {
+  text-align: center;
+  height: 100vh;
+}
+
+.login {
+  justify-content: center;
+  display: flex;
+  height: 95%;
+}
+.login .container {
+  display: flex;
+  align-items: center;
+}
+.login .container .application {
+  color: floralwhite;
+  text-align: left;
+}
+.login .container .application .app {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+}
+.login .container .login-field {
+  border-radius: 20px;
+  height: 20rem;
+  padding: 0 1rem;
+  background: white;
+  box-shadow: 0 0 75px -30px grey;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  font-size: 2rem;
+  color: #1f1f1f;
+}
+.login .container .login-field form {
+  text-align: center;
+}
+.login .container .login-field form .input-login {
+  margin: 2rem 0;
+  width: 100%;
+}
+.login .container .login-field form .input-login input[type=text], .login .container .login-field form .input-login input[type=password] {
+  width: 100%;
+  height: 3rem;
+  padding: 12px 20px;
+  margin: 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-sizing: border-box;
+  box-shadow: 0 0 5px #ccc;
+}
+.login .container .login-field form button {
+  background: #4534e0;
+  border: none;
+  height: 3rem;
+  width: 100%;
+  border-radius: 3px;
+  text-decoration: none;
+  color: floralwhite;
+  box-shadow: 0 0 5px #ccc;
+}
+.login .container .login-field form button:hover {
+  background: #4030d1;
+  cursor: pointer;
+  color: white;
+  box-shadow: none;
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 1000px;
+    justify-content: space-between;
+  }
+}
+@media (max-width: 1199px) and (min-width: 720px) {
+  .container {
+    width: 100%;
+    padding: 0 5rem;
+    justify-content: space-between;
+  }
+}
+@media (max-width: 719px) and (min-width: 390px) {
+  .container {
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin: 0 1rem;
+  }
+}
+@media (max-width: 389px) {
+  .login .container {
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+  .login .container .login-field {
+    border-radius: 20px;
+    background: white;
+  }
+}
+@media (min-width: 420px) {
+  .login-background {
+    background-image: url(../img/background.jpg);
+  }
+}
+@media (max-width: 419px) {
+  .login-background {
+    background-image: url(../img/background-mobile.jpg);
+  }
+
+  footer {
+    color: floralwhite;
+  }
+}
+@media (min-width: 400px) {
+  .container .login-field {
+    width: 20rem;
+  }
+}
+.sidebar {
+  margin: 0;
+  position: fixed;
+  height: 100vh;
+  width: 20rem;
+  background-image: linear-gradient(to bottom, #30a4fc, #00508c);
+  color: floralwhite;
+}
+.sidebar .header {
+  margin: 2rem 2rem 0 2rem;
+  border-bottom: solid 1px white;
+  padding-bottom: 1rem;
+  display: flex;
+  align-items: center;
+}
+.sidebar .header .logo {
+  margin-right: 1rem;
+  font-size: 2rem;
+}
+.sidebar .header .brand {
+  font-size: 1.5rem;
+}
+.sidebar .links-field ul {
+  list-style: none;
+  padding: 1rem;
+}
+.sidebar .links-field ul li {
+  font-size: 1.25rem;
+  padding: 1rem;
+}
+.sidebar .links-field ul li .letter-icon {
+  font-size: 1.4rem;
+}
+
+/*# sourceMappingURL=styles.css.map */
