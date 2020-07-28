@@ -8,7 +8,7 @@ const Navbar = ({setBar, bar}) => {
                 <div className="title">Prueba Front-end</div>
             </div>
             <div className="user">
-                Andres Algo
+                Andres Felipe Garcia Castro
                 <i className="fas fa-sign-out-alt"></i>
             </div>
         </div>

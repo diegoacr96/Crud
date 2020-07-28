@@ -1,0 +1,95 @@
+.users-container{
+    padding:1.25rem;
+    height: 80vh;
+    background: white;
+    .users-header{
+        display: flex;
+        justify-content: space-between;
+        .users-title{
+            font-size: 1.25rem;
+            color: #00508c;
+        }
+        .create{
+            background: #4534e0;
+            // right: 1rem;
+            border: none;
+            height: 2.25rem;
+            width: 5rem;
+            border-radius: 3px;
+            text-decoration: none;
+            color: floralwhite;
+            box-shadow: 0 0 5px #ccc;
+        }
+        .create:hover{
+            background: #4030d1;
+            cursor: pointer;
+            color: white;
+            box-shadow: none;
+        }
+    }
+    table{
+        margin: 1rem 0;
+        border-collapse: collapse;
+        thead{
+            th{
+                border-bottom: 1px solid #ccc;
+                font-size: 0.875rem;
+                font-weight: 600;
+                padding: 1rem 0;
+                text-align: left;
+            }
+        }
+        tbody{
+            td{
+                padding: 0.75rem 0;
+                border-bottom: 1px solid #ccc;
+                color: #919191;
+                font-size: 0.875rem;
+
+            }
+        }
+    }
+}
+
+
+@media (min-width: 1350px){
+    .users-container{
+        margin: 1rem  21rem 0 21rem; 
+        table{
+            width: 100%;
+        }
+    }
+}
+
+@media (min-width: 900px) and (max-width: 1349px) {
+    .users-container{
+        margin: 2rem 1rem 1rem 7rem;
+    }
+}
+
+
+@media (max-width: 899px){
+    .users-container{
+        margin: 0; 
+        overflow-x: auto;
+
+        table{
+            margin-top: 2rem;
+            margin-right: 2rem;
+            thead{
+                white-space: nowrap;
+                th{
+                    min-width: 6rem;
+                    max-width: 20rem;
+                }
+            }
+            tbody{
+                white-space: nowrap;
+                td{
+                    min-width: 6rem;
+                    max-width: 20rem;
+                }
+            }
+        }
+    }
+}
