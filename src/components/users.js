@@ -18,7 +18,42 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
-const Rols = ({users, table_header}) => {
+const DeleteItem = ({delUser, setDel, del, fetchUsers}) => {
+    document.onkeyup = (e) => e.key==="Escape"?setDel(false):null;
+    const deleteDocument = (delUser) => {
+        db.collection("usuarios").where("Email", "==", delUser.Email).get().then(resp => {
+            resp.forEach(doc => {
+                doc.ref.delete().then(() => {
+                    console.log("Document successfully deleted!");
+                    setDel(false);
+                    fetchUsers();
+                }).catch(function(error) {
+                    console.error("Error removing document: ", error);
+                    setDel(false);
+                });
+            })
+        });
+    }
+    if(del){
+        return(
+            <div className="delete-alert">
+                <div className="delete-header">Estás seguro que desear borrar a {delUser.Nombre + " " + delUser.Apellido}</div>
+                <div className="button-group">
+                    <button type="button" className="delete" onClick={() => deleteDocument(delUser)}>Borrar</button>
+                    <button type="button" className="cancel" onClick={() => setDel(false)}>Cancelar</button>
+                </div>
+            </div>
+        )
+    }else{
+        return ""
+    }
+}
+
+
+
+const Rols = ({users, table_header, setDel, setDelUser}) => {
+    
+    
     if(users.loading){
         return "Loading";
     }else if (users.err){
@@ -35,7 +70,11 @@ const Rols = ({users, table_header}) => {
                     <td>{usuario.Email}</td>
                     <td>
                         <i className="fas fa-pen"></i>
-                        <i className="fas fa-trash-alt"></i>
+                        <i className="fas fa-trash-alt" onClick={() =>{
+                            setDel(true); 
+                            setDelUser(usuario);
+                            }} >
+                        </i>
                     </td>
                 </tr>
             )
@@ -68,8 +107,8 @@ const Rols = ({users, table_header}) => {
 const Users = ({bar}) => {
     const table_header = ["Nombre", "Apellidos", "Identificación(C.C)", "Rol asociado", "Estado", "Telefono", "Correo electrónico", "Acción"]
     const [create, setCreate] = React.useState(false);
-    const [totalUsers, setTotalUsers] = React.useState([]);
-    const [page, setPage] = React.useState(1);
+    const [del, setDel] = React.useState(false);
+    const [delUser, setDelUser] = React.useState(null);
     const [users, setUsers] = React.useState({
         loading: true,
         err: false,
@@ -82,7 +121,6 @@ const Users = ({bar}) => {
             querySnapshot.forEach((doc) => {
                 temp.push(doc.data());
             });
-            setTotalUsers(temp);
             setUsers({
                 loading: false,
                 err: false,
@@ -95,13 +133,17 @@ const Users = ({bar}) => {
         fetchUsers();
     }, [])
 
-    const pages = () => {
-        setUsers({
-            loading: false,
-            err: false,
-            users: totalUsers.slice(8*page, 8*(page + 8)),
-            page: Math.floor(totalUsers/8)
-        })
+
+const deleteDocument = (usuario) => {
+        db.collection("usuarios").where("Email", "==", usuario.Email).get().then(resp => {
+            resp.forEach(doc => {
+                doc.ref.delete().then(() => {
+                    console.log("Document successfully deleted!");
+                }).catch(function(error) {
+                    console.error("Error removing document: ", error);
+                });
+            })
+        });
     }
 
     const createUser = (event) => {
@@ -138,7 +180,6 @@ const Users = ({bar}) => {
         });
     }
 
-
     document.onkeyup = (e) => e.key==="Escape"?setCreate(false):null;
     return(
         <div className={bar?"users-container users-open": "users-container users-collapse"} >
@@ -151,7 +192,7 @@ const Users = ({bar}) => {
                     Crear
                 </button>
             </div>
-            <Rols users={users} table_header={table_header} />
+            <Rols users={users} table_header={table_header} setDel={setDel} setDelUser={setDelUser} />
             <div className="pagination">
                 
             </div>
@@ -201,6 +242,7 @@ const Users = ({bar}) => {
                 </div>
                 :""
             }
+            <DeleteItem delUser = {delUser} setDel={setDel} del={del} fetchUsers={fetchUsers} />
         </div>
     )
 }
