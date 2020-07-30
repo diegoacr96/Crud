@@ -54,11 +54,9 @@
         background: white;
         border-radius: 5px;
         box-shadow: 0 0 75px -30px grey;
-        padding: 4rem;
         z-index: 2;
         .create-header{
             margin-bottom: 1rem;
-            width: 30rem;
             color: #00508c;
             font-weight: 500;
             display: flex;
@@ -72,7 +70,6 @@
             width :30rem;
             .row{
                 display: flex;
-                
                 justify-content: space-between;
                 .col{
                     display: flex;
@@ -146,16 +143,19 @@
 
 @media (min-width: 1350px){
     .users-container{
+        transition: 200ms;
+        transition-property: margin;
         table{
             width: 100%;
         }
-        transition: 200ms;
-        transition-property: margin;
-
         .create-user{
             top: 10rem;
+            padding: 4rem;
             left: 30rem;
             width: 30rem;
+            .create-header{
+                width: 30rem;
+            }
         }
     }
     .users-open{
@@ -177,18 +177,39 @@
 @media (min-width: 900px) and (max-width: 1349px) {
     .users-container{
         margin: 2rem 1rem 1rem 7rem;
+        .create-user{
+            padding: 4rem;
+            .create-header{
+                width: 30rem;
+            }
+        }
     }
 }
 
 
-@media (max-width: 899px){
+@media (min-width: 500px) and (max-width: 899px){
     .users-container{
         margin: 0; 
         overflow-x: auto;
-
+        .create-user{
+            top: 10%;
+            left: 10%;
+            padding: 4rem;
+            overflow-y: auto;
+            .create-header{
+                width: 30rem;
+            }
+            form{
+                .row{
+                    flex-direction: column;
+                }
+            }
+            
+        } 
         table{
             margin-top: 2rem;
             margin-right: 2rem;
+            
             thead{
                 white-space: nowrap;
                 th{
@@ -204,9 +225,55 @@
                 }
             }
         }
+    }
+}
+
+
+@media (max-width: 499px){
+    .users-container{
+        margin: 0; 
+        overflow-x: auto;
         .create-user{
-            top: 1rem;
-            margin: 0.5rem 0;
+            padding: 0;
+            width: 100%;
+            top: 0;
+            left: 0;
+            .create-header{
+                padding: 1rem;
+            }
+            
+            form{
+                padding: 1rem;
+                width: auto;
+                .row{
+                    flex-direction: column;
+                    .col{
+                        input, select{
+                            max-width: 20rem;
+                        }
+                    }
+                }
+            }
+            
         } 
+        table{
+            margin-top: 2rem;
+            margin-right: 2rem;
+            
+            thead{
+                white-space: nowrap;
+                th{
+                    min-width: 6rem;
+                    max-width: 20rem;
+                }
+            }
+            tbody{
+                white-space: nowrap;
+                td{
+                    min-width: 6rem;
+                    max-width: 20rem;
+                }
+            }
+        }
     }
 }

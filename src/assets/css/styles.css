@@ -388,12 +388,10 @@
   background: white;
   border-radius: 5px;
   box-shadow: 0 0 75px -30px grey;
-  padding: 4rem;
   z-index: 2;
 }
 .users-container .create-user .create-header {
   margin-bottom: 1rem;
-  width: 30rem;
   color: #00508c;
   font-weight: 500;
   display: flex;
@@ -481,7 +479,11 @@
   }
   .users-container .create-user {
     top: 10rem;
+    padding: 4rem;
     left: 30rem;
+    width: 30rem;
+  }
+  .users-container .create-user .create-header {
     width: 30rem;
   }
 
@@ -505,11 +507,29 @@
   .users-container {
     margin: 2rem 1rem 1rem 7rem;
   }
+  .users-container .create-user {
+    padding: 4rem;
+  }
+  .users-container .create-user .create-header {
+    width: 30rem;
+  }
 }
-@media (max-width: 899px) {
+@media (min-width: 500px) and (max-width: 899px) {
   .users-container {
     margin: 0;
     overflow-x: auto;
+  }
+  .users-container .create-user {
+    top: 10%;
+    left: 10%;
+    padding: 4rem;
+    overflow-y: auto;
+  }
+  .users-container .create-user .create-header {
+    width: 30rem;
+  }
+  .users-container .create-user form .row {
+    flex-direction: column;
   }
   .users-container table {
     margin-top: 2rem;
@@ -529,9 +549,48 @@
     min-width: 6rem;
     max-width: 20rem;
   }
+}
+@media (max-width: 499px) {
+  .users-container {
+    margin: 0;
+    overflow-x: auto;
+  }
   .users-container .create-user {
-    top: 1rem;
-    margin: 0.5rem 0;
+    padding: 0;
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
+  .users-container .create-user .create-header {
+    padding: 1rem;
+  }
+  .users-container .create-user form {
+    padding: 1rem;
+    width: auto;
+  }
+  .users-container .create-user form .row {
+    flex-direction: column;
+  }
+  .users-container .create-user form .row .col input, .users-container .create-user form .row .col select {
+    max-width: 20rem;
+  }
+  .users-container table {
+    margin-top: 2rem;
+    margin-right: 2rem;
+  }
+  .users-container table thead {
+    white-space: nowrap;
+  }
+  .users-container table thead th {
+    min-width: 6rem;
+    max-width: 20rem;
+  }
+  .users-container table tbody {
+    white-space: nowrap;
+  }
+  .users-container table tbody td {
+    min-width: 6rem;
+    max-width: 20rem;
   }
 }
 .searchbar {

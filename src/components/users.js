@@ -133,19 +133,6 @@ const Users = ({bar}) => {
         fetchUsers();
     }, [])
 
-
-const deleteDocument = (usuario) => {
-        db.collection("usuarios").where("Email", "==", usuario.Email).get().then(resp => {
-            resp.forEach(doc => {
-                doc.ref.delete().then(() => {
-                    console.log("Document successfully deleted!");
-                }).catch(function(error) {
-                    console.error("Error removing document: ", error);
-                });
-            })
-        });
-    }
-
     const createUser = (event) => {
         event.preventDefault();
         const item = event.target;
