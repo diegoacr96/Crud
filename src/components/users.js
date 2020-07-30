@@ -1,82 +1,50 @@
 import React from 'react';
 
-const employees = [
-    {
-        name: "Andres Felipe",
-        lastName: "Garcia Castro",
-        id: 123123123,
-        rol: "Administrador",
-        state: "active",
-        tel: 132123123,
-        email: "asd@email.com",
-    },{
-        name: "Andres Felipe",
-        lastName: "Garcia Castro",
-        id: 123123123,
-        rol: "Administrador",
-        state: "active",
-        tel: 132123123,
-        email: "asd@email.com",
-    },{
-        name: "Andres Felipe",
-        lastName: "Garcia Castro",
-        id: 123123123,
-        rol: "Administrador",
-        state: "active",
-        tel: 132123123,
-        email: "asd@email.com",
-    }
-]
+const firebase = require('firebase');
+require('firebase/firestore');
 
-const Rols = () => {
-    return employees.map((employed, idx) => (
-        <tr key={idx}>
-            <td>
-                {employed.name}
-            </td>
-            <td>
-                {employed.lastName}
-            </td>
-            <td>
-                {employed.id}
-            </td>
-            <td>
-                {employed.rol}
-            </td>
-            <td>
-                {employed.state}
-            </td>
-            <td>
-                {employed.tel}
-            </td>
-            <td>
-                {employed.email}
-            </td>
-            <td>
-                <i className="fas fa-pen"></i>
-                <i className="fas fa-trash-alt"></i>
-            </td>
-        </tr>
-    ))
-}
+const firebaseConfig = {
+    apiKey: "AIzaSyBk7D9UnQIg4hPH0JUsrVypoUeqf57kjXs",
+    authDomain: "prueba-front-2a3bd.firebaseapp.com",
+    databaseURL: "https://prueba-front-2a3bd.firebaseio.com",
+    projectId: "prueba-front-2a3bd",
+    storageBucket: "prueba-front-2a3bd.appspot.com",
+    messagingSenderId: "657100764252",
+    appId: "1:657100764252:web:88d5402b426464cd102299",
+    measurementId: "G-6BDNQ7SF76"
+};
 
-const Users = ({bar}) => {
-    const table_hader = ["Nombre", "Apellidos", "Identificación(C.C)", "Rol asociado", "Estado", "Telefono", "Correo electrónico", "Acción"]
-    return(
-        <div className={bar?"users-container users-open": "users-container users-collapse"} >
-            <div className="users-header" >
-                <div className="users-title">
-                    <i className="fas fa-users"></i>
-                    Usuarios existentes
-                </div>
-                <button className="create">
-                    Crear
-                </button>
-            </div>
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+
+const Rols = ({users, table_header}) => {
+    if(users.loading){
+        return "Loading";
+    }else if (users.err){
+        return "Err";
+    }else if (users.users.length > 0){
+        const listaDeUsuarios = users.users.map((usuario, idx) => (
+                <tr key={idx}>
+                    <td>{usuario.Nombre}</td>
+                    <td>{usuario.Apellido}</td>
+                    <td style={{textAlign: "center"}}>{usuario.Id}</td>
+                    <td>{usuario.Rol}</td>
+                    <td>{usuario.State}</td>
+                    <td>{usuario.Tel}</td>
+                    <td>{usuario.Email}</td>
+                    <td>
+                        <i className="fas fa-pen"></i>
+                        <i className="fas fa-trash-alt"></i>
+                    </td>
+                </tr>
+            )
+        );
+        return(
             <table>
                 <thead>
                     <tr className="table-row">
-                        {table_hader.map((item, idx) => (
+                        {table_header.map((item, idx) => (
                             <th key={idx}>
                                 {item} 
                             </th>
@@ -84,9 +52,155 @@ const Users = ({bar}) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <Rols />
+                    {listaDeUsuarios}
                 </tbody>
             </table>
+        )
+    }
+    return (
+        <div> 
+            La lista está vacia, añade algun usuario
+        </div>
+    )
+}
+
+
+const Users = ({bar}) => {
+    const table_header = ["Nombre", "Apellidos", "Identificación(C.C)", "Rol asociado", "Estado", "Telefono", "Correo electrónico", "Acción"]
+    const [create, setCreate] = React.useState(false);
+    const [totalUsers, setTotalUsers] = React.useState([]);
+    const [page, setPage] = React.useState(1);
+    const [users, setUsers] = React.useState({
+        loading: true,
+        err: false,
+        users: []
+    });
+
+    const fetchUsers = () => {
+        let temp = [];
+        db.collection("usuarios").get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                temp.push(doc.data());
+            });
+            setTotalUsers(temp);
+            setUsers({
+                loading: false,
+                err: false,
+                users: temp
+            })
+        });
+    }
+
+    React.useEffect(() => {
+        fetchUsers();
+    }, [])
+
+    const pages = () => {
+        setUsers({
+            loading: false,
+            err: false,
+            users: totalUsers.slice(8*page, 8*(page + 8)),
+            page: Math.floor(totalUsers/8)
+        })
+    }
+
+    const createUser = (event) => {
+        event.preventDefault();
+        const item = event.target;
+        
+        firebase.auth().createUserWithEmailAndPassword(item['mail'].value, item['pass'].value).then(() => {
+            db.collection("usuarios").add({
+                Nombre: item['name'].value,
+                Apellido: item['last-name'].value,
+                Email: item['mail'].value,
+                Pass: item['pass'].value,
+                Rol: item['rol'].value,
+                Tel: item['tel'].value,
+                Id: item['id'].value,
+                State: item['state'].value 
+            })
+            .then(function(docRef) {
+                console.log("Document written with ID: ", docRef.id);
+                setCreate(false);
+                fetchUsers();
+            })
+            .catch(function(error) {
+                console.error("Error adding document: ", error);
+                setCreate(false);
+                fetchUsers();
+            });
+        }).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.log(errorCode);
+            console.log(errorMessage);
+        });
+    }
+
+
+    document.onkeyup = (e) => e.key==="Escape"?setCreate(false):null;
+    return(
+        <div className={bar?"users-container users-open": "users-container users-collapse"} >
+            <div className="users-header" >
+                <div className="users-title">
+                    <i className="fas fa-users"></i>
+                    Usuarios existentes
+                </div>
+                <button className="create" onClick={() => setCreate(true)}>
+                    Crear
+                </button>
+            </div>
+            <Rols users={users} table_header={table_header} />
+            <div className="pagination">
+                
+            </div>
+            {create?
+                <div className = "create-user">
+                    <div className="create-header">
+                        Crear usuario
+                        <i className="fas fa-times" onClick={() => setCreate(false)}></i>
+                    </div>
+                    <form onSubmit={(values) => createUser(values)}>
+                        <div className="row">
+                            <div className="col">
+                                <label htmlFor="name">Nombres</label>
+                                <input type="text" name="name" required />
+                                <label htmlFor="id">Identificación</label>
+                                <input type="number" name='id' required />
+                                <label htmlFor="state">Estado</label>
+                                <select name='state'>
+                                    <option>Activo</option>
+                                    <option>Inactivo</option>
+                                </select>
+                                <label htmlFor="tel">Telefono</label>
+                                <input type="tel" name='tel' required />
+                            </div>
+                            <div className="col">
+                                <label htmlFor="last-name">Apellidos</label>
+                                <input type="text" name="last-name" required />
+                                
+                                <label htmlFor="rol">Rol Asociado</label>
+                                <select name="rol">
+                                    <option>Administrador</option>
+                                    <option>Conductor</option>
+                                    <option>Recolector</option>
+                                </select>
+                                <label htmlFor="pass">Contraseña</label>
+                                <input type="password" name='pass' required />
+                                
+                                <label htmlFor="mail">Correo Electrónico</label>
+                                <input type="Email" name="mail" required />
+                            </div>
+                        </div>
+                        <div className="button-group">
+                            <button type="submit" className="crear">Crear</button>
+                            <button type="button" className="cancel" onClick={() => setCreate(false)}>Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+                :""
+            }
         </div>
     )
 }

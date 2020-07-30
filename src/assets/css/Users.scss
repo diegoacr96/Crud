@@ -49,8 +49,100 @@
             }
         }
     }
-}
+    .create-user{
+        position: absolute;
+        background: white;
+        border-radius: 5px;
+        box-shadow: 0 0 75px -30px grey;
+        padding: 4rem;
+        z-index: 2;
+        .create-header{
+            margin-bottom: 1rem;
+            width: 30rem;
+            color: #00508c;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+        }
+        form{
+            color: #919191;
+            display: flex;
+            flex-direction: column;
+            font-size: 0.75rem;
+            width :30rem;
+            .row{
+                display: flex;
+                
+                justify-content: space-between;
+                .col{
+                    display: flex;
+                    flex-direction: column;
+                    .label{
+                        font-size: 0.75rem;
+                    }
+                    input{
+                        color: #919191;
+                        width: 100%;
+                        height: 2rem;
+                        padding: 12px 20px;
+                        margin-bottom: 1rem;
+                        display: inline-block;
+                        border: 1px solid #ccc;
+                        border-radius: 2px;
+                        box-sizing: border-box;
+                        box-shadow: 0 0 5px #ccc;
+                    }
+                    select{
+                        color: #919191;
+                        width: 100%;
+                        height: 2rem;   
+                        margin-bottom: 1rem;
+                        display: inline-block;
+                        border: 1px solid #ccc;
+                        border-radius: 2px;
+                        box-sizing: border-box;
+                        box-shadow: 0 0 5px #ccc;
+                    }
+                }
+            }
+            
+            
+            .button-group{
+                margin: 1rem 0;
+                display: flex;
+                width: 100%;
+                justify-content: space-evenly;
+                button{
+                    // right: 1rem;
+                    border: none;
+                    height: 2.25rem;
+                    width: 6.5rem;
+                    border-radius: 3px;
+                    text-decoration: none;
+                    color: floralwhite;
+                    box-shadow: 0 0 5px #ccc;
+                }
+                .crear{
+                    background-image: linear-gradient(to right, #67d428, #008223);
+                    color: white;
+                }
+                .cancel{
+                    background: white;
+                    border: solid 1px #67d428;
+                    color: #67d428;
+                }
 
+                button:hover{
+                    background: #4030d1;
+                    cursor: pointer;
+                    color: white;
+                    box-shadow: none;
+                }
+            }
+            
+        }
+    }
+}
 
 @media (min-width: 1350px){
     .users-container{
@@ -59,6 +151,12 @@
         }
         transition: 200ms;
         transition-property: margin;
+
+        .create-user{
+            top: 10rem;
+            left: 30rem;
+            width: 30rem;
+        }
     }
     .users-open{
         margin: 1rem  21rem 0 21rem;
@@ -106,5 +204,9 @@
                 }
             }
         }
+        .create-user{
+            top: 1rem;
+            margin: 0.5rem 0;
+        } 
     }
 }

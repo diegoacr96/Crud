@@ -383,6 +383,102 @@
   color: #919191;
   font-size: 0.875rem;
 }
+.users-container .create-user {
+  position: absolute;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 0 75px -30px grey;
+  padding: 4rem;
+  z-index: 2;
+}
+.users-container .create-user .create-header {
+  margin-bottom: 1rem;
+  width: 30rem;
+  color: #00508c;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+}
+.users-container .create-user form {
+  color: #919191;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.75rem;
+  width: 30rem;
+}
+.users-container .create-user form .row {
+  display: flex;
+  justify-content: space-between;
+}
+.users-container .create-user form .row .col {
+  display: flex;
+  flex-direction: column;
+}
+.users-container .create-user form .row .col .label {
+  font-size: 0.75rem;
+}
+.users-container .create-user form .row .col input {
+  color: #919191;
+  width: 100%;
+  height: 2rem;
+  padding: 12px 20px;
+  margin-bottom: 1rem;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-sizing: border-box;
+  box-shadow: 0 0 5px #ccc;
+}
+.users-container .create-user form .row .col select {
+  color: #919191;
+  width: 100%;
+  height: 2rem;
+  margin-bottom: 1rem;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-sizing: border-box;
+  box-shadow: 0 0 5px #ccc;
+}
+.users-container .create-user form .button-group {
+  margin: 1rem 0;
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+}
+.users-container .create-user form .button-group button {
+  border: none;
+  height: 2.25rem;
+  width: 6.5rem;
+  border-radius: 3px;
+  text-decoration: none;
+  color: floralwhite;
+  box-shadow: 0 0 5px #ccc;
+}
+.users-container .create-user form .button-group .crear {
+  background-image: linear-gradient(to right, #67d428, #008223);
+  color: white;
+}
+.users-container .create-user form .button-group .cancel {
+  background: white;
+  border: solid 1px #67d428;
+  color: #67d428;
+}
+.users-container .create-user form .button-group button:hover {
+  background: #4030d1;
+  cursor: pointer;
+  color: white;
+  box-shadow: none;
+}
+
+.overflow {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  color: black;
+  opacity: 50%;
+  z-index: 1;
+}
 
 @media (min-width: 1350px) {
   .users-container {
@@ -391,6 +487,11 @@
   }
   .users-container table {
     width: 100%;
+  }
+  .users-container .create-user {
+    top: 10rem;
+    left: 30rem;
+    width: 30rem;
   }
 
   .users-open {
@@ -436,6 +537,10 @@
   .users-container table tbody td {
     min-width: 6rem;
     max-width: 20rem;
+  }
+  .users-container .create-user {
+    top: 1rem;
+    margin: 0.5rem 0;
   }
 }
 .searchbar {

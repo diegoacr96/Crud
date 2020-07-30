@@ -22,6 +22,8 @@ const SearchBar = ({setSearch, search}) => {
                     <select type="select" name="rol">
                         <option></option>
                         <option>Administrador</option>
+                        <option>Conductor</option>
+                        <option>Recolector</option>
                     </select>
                     <label htmlFor="state">Estado</label>
                     <select type="select" name="state">

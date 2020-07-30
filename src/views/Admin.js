@@ -8,13 +8,13 @@ import Footer from '../components/footer';
 
 const Admin = () => {
     const desktop =  window.matchMedia("(min-width: 900px)");
-    const [bar, setBar] = React.useState(false);
+    const [bar, setBar] = React.useState(desktop.matches);
 
-    React.useEffect(() => {
+/*     React.useEffect(() => {
         if(desktop.matches){
             setBar(true);
         }
-    }, [bar, desktop.matches])
+    }, [bar]) */
     
 
     const [search, setSearch] = React.useState(false);
