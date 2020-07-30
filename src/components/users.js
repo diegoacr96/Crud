@@ -1,24 +1,6 @@
 import React from 'react';
 
-const firebase = require('firebase');
-require('firebase/firestore');
-
-const firebaseConfig = {
-    apiKey: "AIzaSyBk7D9UnQIg4hPH0JUsrVypoUeqf57kjXs",
-    authDomain: "prueba-front-2a3bd.firebaseapp.com",
-    databaseURL: "https://prueba-front-2a3bd.firebaseio.com",
-    projectId: "prueba-front-2a3bd",
-    storageBucket: "prueba-front-2a3bd.appspot.com",
-    messagingSenderId: "657100764252",
-    appId: "1:657100764252:web:88d5402b426464cd102299",
-    measurementId: "G-6BDNQ7SF76"
-};
-
-firebase.initializeApp(firebaseConfig);
-
-const db = firebase.firestore();
-
-const DeleteItem = ({delUser, setDel, del, fetchUsers}) => {
+const DeleteItem = ({delUser, setDel, del, fetchUsers, db}) => {
     document.onkeyup = (e) => e.key==="Escape"?setDel(false):null;
     const deleteDocument = (delUser) => {
         db.collection("usuarios").where("Email", "==", delUser.Email).get().then(resp => {
@@ -51,7 +33,7 @@ const DeleteItem = ({delUser, setDel, del, fetchUsers}) => {
 
 
 
-const Rols = ({users, table_header, setDel, setDelUser}) => {
+const Rols = ({users, table_header, setDel, setDelUser, setEdit, setEditUser}) => {
     
     
     if(users.loading){
@@ -69,7 +51,10 @@ const Rols = ({users, table_header, setDel, setDelUser}) => {
                     <td>{usuario.Tel}</td>
                     <td>{usuario.Email}</td>
                     <td>
-                        <i className="fas fa-pen"></i>
+                        <i className="fas fa-pen" onClick={() => {
+                            setEdit(true); 
+                            setEditUser(usuario);
+                        }}></i>
                         <i className="fas fa-trash-alt" onClick={() =>{
                             setDel(true); 
                             setDelUser(usuario);
@@ -103,12 +88,71 @@ const Rols = ({users, table_header, setDel, setDelUser}) => {
     )
 }
 
+const Edit = ({setEdit}) => {
 
-const Users = ({bar}) => {
+    const handleEditUser = (event) => {
+        event.preventDefault();
+        console.log(event.targe["name"].value)
+    }
+
+    return(
+        <div className = "create-user">
+            <div className="create-header">
+                Editar usuario
+                <i className="fas fa-times" onClick={() => setEdit(false)}></i>
+            </div>
+            <form onSubmit={handleEditUser}>
+                <div className="row">
+                    <div className="col">
+                        <label htmlFor="name">Nombres</label>
+                        <input type="text" name="name" required />
+                        <label htmlFor="id">Identificación</label>
+                        <input type="number" name='id' required />
+                        <label htmlFor="state">Estado</label>
+                        <select name='state'>
+                            <option>Activo</option>
+                            <option>Inactivo</option>
+                        </select>
+                        <label htmlFor="tel">Telefono</label>
+                        <input type="tel" name='tel' required />
+                    </div>
+                    <div className="col">
+                        <label htmlFor="last-name">Apellidos</label>
+                        <input type="text" name="last-name" required />
+                        
+                        <label htmlFor="rol">Rol Asociado</label>
+                        <select name="rol">
+                            <option>Administrador</option>
+                            <option>Conductor</option>
+                            <option>Recolector</option>
+                        </select>
+                        <label htmlFor="pass">Contraseña</label>
+                        <input type="password" name='pass' required />
+                        
+                        <label htmlFor="mail">Correo Electrónico</label>
+                        <input type="Email" name="mail" required />
+                    </div>
+                </div>
+                <div className="button-group">
+                    <button type="submit" className="crear">Editar</button>
+                    <button type="button" className="cancel" onClick={() => setEdit(false)}>Cancelar</button>
+                </div>
+            </form>
+        </div>
+    )
+}
+const Users = ({bar, db, firebase}) => {
+    firebase.auth().onAuthStateChanged((user) => {
+        if (!user) {
+          window.location.replace("/");
+        }
+      })
     const table_header = ["Nombre", "Apellidos", "Identificación(C.C)", "Rol asociado", "Estado", "Telefono", "Correo electrónico", "Acción"]
     const [create, setCreate] = React.useState(false);
     const [del, setDel] = React.useState(false);
     const [delUser, setDelUser] = React.useState(null);
+    const [edit, setEdit] = React.useState(false);
+    const [editUser, setEditUser] = React.useState(null);
     const [users, setUsers] = React.useState({
         loading: true,
         err: false,
@@ -179,7 +223,12 @@ const Users = ({bar}) => {
                     Crear
                 </button>
             </div>
-            <Rols users={users} table_header={table_header} setDel={setDel} setDelUser={setDelUser} />
+            <Rols users={users} table_header={table_header} 
+                setDel={setDel} 
+                setDelUser={setDelUser}
+                setEdit={setEdit}
+                setEditUser={setEditUser} 
+            />
             <div className="pagination">
                 
             </div>
@@ -222,14 +271,15 @@ const Users = ({bar}) => {
                             </div>
                         </div>
                         <div className="button-group">
-                            <button type="submit" className="crear">Crear</button>
+                            <button type="submit" className="crear" onClick>Crear</button>
                             <button type="button" className="cancel" onClick={() => setCreate(false)}>Cancelar</button>
                         </div>
                     </form>
                 </div>
                 :""
             }
-            <DeleteItem delUser = {delUser} setDel={setDel} del={del} fetchUsers={fetchUsers} />
+            <DeleteItem delUser = {delUser} setDel={setDel} del={del} fetchUsers={fetchUsers} db={db} />
+            {edit? <Edit setEdit={setEdit} />: ""}
         </div>
     )
 }

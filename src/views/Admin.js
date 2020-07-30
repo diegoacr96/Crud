@@ -6,7 +6,7 @@ import Users from '../components/users';
 import SearchBar from '../components/searchbar';
 import Footer from '../components/footer';
 
-const Admin = () => {
+const Admin = ({db, firebase}) => {
     const desktop =  window.matchMedia("(min-width: 900px)");
     const [bar, setBar] = React.useState(desktop.matches);
 
@@ -16,14 +16,13 @@ const Admin = () => {
         }
     }, [bar]) */
     
-
     const [search, setSearch] = React.useState(false);
     return(
         <div className="admin">
             <Sidebar setBar={setBar} bar={bar} />
-            <Navbar setBar={setBar} bar={bar} />
-            <Users bar={bar} />
-            <SearchBar setSearch={setSearch} search={search} />
+            <Navbar setBar={setBar} bar={bar} db={db} firebase={firebase} />
+            <Users bar={bar} db={db} firebase={firebase} />
+            <SearchBar setSearch={setSearch} search={search} db={db} />
             <Footer />
         </div>
     )

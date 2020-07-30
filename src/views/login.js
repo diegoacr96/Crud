@@ -1,22 +1,39 @@
 import React from 'react';
 
-const firebase= require('firebase');
-require('firebase/firestore');
-
-const login = (event) => {
-    event.preventDefault();
-    firebase.auth().signInWithEmailAndPassword("diegoacr96@gmail.com", "password").catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        if(errorCode) console.log(errorCode);
-        var errorMessage = error.message;
-        if(errorMessage) console.log(errorMessage);
-        // ...
+const Login = ({firebase}) => {
+    const date = new Date(); 
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            window.location.replace("/admin");
+        }
     })
-}
 
-const Login = () => {
-    const date = new Date();
+/*     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+    .then(() => {
+        return window.location.replace("/admin");
+    }) */
+    const login = (event) => {
+        event.preventDefault();
+        const email = event.target['email'].value;
+        const pass = event.target['pass'].value;
+        firebase.auth().signInWithEmailAndPassword(email, pass)
+        .then(() => {
+            console.log("logged in");
+        });
+        /* firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION)
+        .then(() => {
+            return firebase.auth().signInWithEmailAndPassword(email, pass);
+        })
+        .then(() => {
+            firebase.auth().currentUser.getIdToken(false).then(() => {
+            })
+        })
+        .catch((error) => {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+        }); */
+    }
     return(
         <div className="login-background">
             <div className="login">
@@ -30,10 +47,10 @@ const Login = () => {
                     </div>
                     <div className="login-field">
                         Inicio de sesión    
-                        <form onSubmit={() => login()}>
+                        <form onSubmit={login}>
                             <div className="input-login">
-                                    <input type="text" placeholder="Usuario" />
-                                    <input type="password" placeholder="Contraseña" />
+                                <input type="text" name="email" placeholder="Usuario" />
+                                <input type="password" name="pass" placeholder="Contraseña" />
                             </div>
                             <button type="submit"> Iniciar Sesión </button>                        
                         </form> 
