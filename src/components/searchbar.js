@@ -3,14 +3,8 @@ import {useDispatch} from 'react-redux';
 
 import {fetchingUsers} from '../redux/actionCreator';
 
-const SearchBar = ({setSearch, search, db}) => {
+const SearchBar = ({setSearch, search, db, searchHandler}) => {
     const dispatch = useDispatch();
-
-    const searchHandler = (event) => {
-        event.preventDefault();
-        const item = event.target;
-        dispatch(fetchingUsers(db, item));
-    }
 
     return(
         <div className={search? "searchbar searchbar-open": "searchbar searchbar-collapse"}>

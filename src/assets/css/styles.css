@@ -383,6 +383,13 @@
   color: #919191;
   font-size: 0.875rem;
 }
+.users-container table tbody td i {
+  margin: 0 0.5rem;
+}
+.users-container table tbody td i:hover {
+  cursor: pointer;
+  color: #4030d1;
+}
 .users-container .create-user {
   position: absolute;
   background: white;
@@ -467,6 +474,19 @@
   cursor: pointer;
   color: white;
   box-shadow: none;
+}
+.users-container .pagination {
+  display: flex;
+  justify-content: flex-end;
+}
+.users-container .pagination i {
+  margin: 0 1rem;
+}
+.users-container .pagination i:hover {
+  color: #4534e0;
+}
+.users-container .pagination:hover {
+  cursor: pointer;
 }
 
 @media (min-width: 1350px) {

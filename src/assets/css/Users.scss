@@ -45,7 +45,13 @@
                 border-bottom: 1px solid #ccc;
                 color: #919191;
                 font-size: 0.875rem;
-
+                i{
+                    margin: 0 0.5rem;
+                }
+                i:hover{
+                    cursor: pointer;
+                    color: #4030d1;
+                }
             }
         }
     }
@@ -138,6 +144,19 @@
             }
             
         }
+    }
+    .pagination{
+        display: flex;
+        justify-content: flex-end;
+        i{
+            margin: 0 1rem;
+        }
+        i:hover{
+            color: #4534e0;
+        }
+    }
+    .pagination:hover{
+        cursor: pointer;
     }
 }
 

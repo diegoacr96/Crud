@@ -153,7 +153,7 @@ const EditUser = ({db, editableValue, editUser, setEdit, setEditableValue}) => {
 }
 
 
-const Users = ({bar, db, firebase}) => {
+const Users = ({bar, db, filters}) => {
     const table_header = ["Nombre", "Apellidos", "Identificación(C.C)", "Rol asociado", "Estado", "Telefono", "Correo electrónico", "Acción"]
     const [create, setCreate] = React.useState(false);
     const [del, setDel] = React.useState(false);
@@ -256,9 +256,9 @@ const Users = ({bar, db, firebase}) => {
             }
             <DeleteItem delUser={delUser} setDel={setDel} del={del} db={db} dispatch={dispatch} />
             <EditUser db={db} editableValue={editableValue} editUser={editUser} setEdit={setEdit} setEditableValue={setEditableValue} />
-            <div>
-                <i className="fas fa-chevron-left" onClick={() => {dispatch(fetchingUsers(db, null, null, users.users[0]))}}></i>
-                <i className="fas fa-chevron-right" onClick={() => {dispatch(fetchingUsers(db, null, users.users[users.users.length-1]))}}></i>
+            <div className="pagination">
+                <i className="fas fa-chevron-left" onClick={() => {dispatch(fetchingUsers(db, filters, null, users.users[0]))}}></i>
+                <i className="fas fa-chevron-right" onClick={() => {dispatch(fetchingUsers(db, filters, users.users[users.users.length-1]))}}></i>
             </div>
         </div>
     )
