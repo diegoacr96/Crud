@@ -32,13 +32,13 @@ const Rols = ({users, table_header, setDel, setDelUser, setEdit, setEditUser}) =
     }else if (users.users.length > 0){
         const listaDeUsuarios = users.users.map((usuario, idx) => (
                 <tr key={idx}>
-                    <td>{usuario.Nombre}</td>
-                    <td>{usuario.Apellido}</td>
-                    <td style={{textAlign: "center"}}>{usuario.Id}</td>
-                    <td>{usuario.Rol}</td>
-                    <td>{usuario.State}</td>
-                    <td>{usuario.Tel}</td>
-                    <td>{usuario.Email}</td>
+                    <td>{usuario.data().Nombre}</td>
+                    <td>{usuario.data().Apellido}</td>
+                    <td style={{textAlign: "center"}}>{usuario.data().Id}</td>
+                    <td>{usuario.data().Rol}</td>
+                    <td>{usuario.data().State}</td>
+                    <td>{usuario.data().Tel}</td>
+                    <td>{usuario.data().Email}</td>
                     <td>
                         <i className="fas fa-pen" onClick={() => {
                             setEdit(true); 
@@ -213,7 +213,7 @@ const Users = ({bar, db, firebase}) => {
                     <form onSubmit={(event) => {
                         event.preventDefault();
                         const item = event.target;
-                        dispatch(creatingUsers(db, firebase, item));        
+                        dispatch(creatingUsers(db, item));        
                     }}>
                         <div className="row">
                             <div className="col">
@@ -256,6 +256,10 @@ const Users = ({bar, db, firebase}) => {
             }
             <DeleteItem delUser={delUser} setDel={setDel} del={del} db={db} dispatch={dispatch} />
             <EditUser db={db} editableValue={editableValue} editUser={editUser} setEdit={setEdit} setEditableValue={setEditableValue} />
+            <div>
+                <i className="fas fa-chevron-left" onClick={() => {dispatch(fetchingUsers(db, null, null, users.users[0]))}}></i>
+                <i className="fas fa-chevron-right" onClick={() => {dispatch(fetchingUsers(db, null, users.users[users.users.length-1]))}}></i>
+            </div>
         </div>
     )
 }

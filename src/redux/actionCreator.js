@@ -1,7 +1,10 @@
-export const fetchingUsers = (db, item= null) => dispatch => {
+const firebase = require('firebase');
+require('firebase/firestore');
+
+export const fetchingUsers = (db, item= null, startAt = false, endBefore = false) => dispatch => {
     dispatch(userLoading());
     let query  = db.collection("usuarios");
-    if(item){
+    if(item){ //cheking for items to filter
         query = item['lastname'].value? query.where("Apellido", "==", item['lastname'].value): query;
         query = item['nombre'].value? query.where("Nombre", "==", item['nombre'].value): query;
         query = item['state'].value? query.where("State", "==", item['state'].value): query;
@@ -10,20 +13,37 @@ export const fetchingUsers = (db, item= null) => dispatch => {
         query = item['tel'].value? query.where("Tel", "==", item['tel'].value): query;
         query = item['id'].value? query.where("Id", "==", item['id'].value): query;
     }
-    query.get()
+    query = startAt?query.startAfter(startAt): query; //cheking for page to start
+    query = endBefore?query.endBefore(endBefore): query; //cheking for page to start
+    query.limit(8).get()
     .then(querySnapshot => {
         let temp = [];
         querySnapshot.forEach((user) => {
-            temp.push(user.data())
+            temp.push(user)
         })
+        console.log("length:", querySnapshot)
         dispatch(addUsers(temp));
     })
     .catch(err => dispatch(userErr(err)));
 }
 
 
-export const creatingUsers = (db, firebase, item) => dispatch => {
-    firebase.auth().createUserWithEmailAndPassword(item['mail'].value, item['pass'].value)
+export const creatingUsers = (db, item) => dispatch => {
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBk7D9UnQIg4hPH0JUsrVypoUeqf57kjXs",
+        authDomain: "prueba-front-2a3bd.firebaseapp.com",
+        databaseURL: "https://prueba-front-2a3bd.firebaseio.com",
+        projectId: "prueba-front-2a3bd",
+        storageBucket: "prueba-front-2a3bd.appspot.com",
+        messagingSenderId: "657100764252",
+        appId: "1:657100764252:web:88d5402b426464cd102299",
+        measurementId: "G-6BDNQ7SF76"
+      };
+      
+    const secondaryApp = firebase.initializeApp(firebaseConfig, "Secondary");
+
+    secondaryApp.auth().createUserWithEmailAndPassword(item['mail'].value, item['pass'].value)
     .then(() => {
         db.collection("usuarios").add({
             Nombre: item['name'].value,
@@ -37,6 +57,7 @@ export const creatingUsers = (db, firebase, item) => dispatch => {
         })
         .then(() => {
             dispatch(fetchingUsers(db));
+            secondaryApp.auth().signOut();
         })
         .catch((error) => dispatch(userErr(error)));
     }).catch(function(error) {
