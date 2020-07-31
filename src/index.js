@@ -6,9 +6,17 @@ import * as serviceWorker from './serviceWorker';
 import '@fortawesome/fontawesome-free/css/all.css';
 import './assets/css/styles.css';
 
+import {Provider} from 'react-redux';
+
+import configureStore from './redux/createStore';
+
+const store = configureStore();
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

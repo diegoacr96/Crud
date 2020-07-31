@@ -7,6 +7,11 @@ import SearchBar from '../components/searchbar';
 import Footer from '../components/footer';
 
 const Admin = ({db, firebase}) => {
+    firebase.auth().onAuthStateChanged((user) => {
+        if (!user) {
+          window.location.replace("/");
+        }
+    })
     const desktop =  window.matchMedia("(min-width: 900px)");
     const [bar, setBar] = React.useState(desktop.matches);
 

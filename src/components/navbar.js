@@ -1,7 +1,5 @@
 import React from 'react';
 
-const firebase = require('firebase');
-require('firebase/firestore');
 
 const Navbar = ({setBar, bar, db, firebase}) => {
     const[name, setName] = React.useState("");

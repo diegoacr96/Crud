@@ -1,6 +1,17 @@
 import React from 'react';
+import {useDispatch} from 'react-redux';
 
-const SearchBar = ({setSearch, search}) => {
+import {fetchingUsers} from '../redux/actionCreator';
+
+const SearchBar = ({setSearch, search, db}) => {
+    const dispatch = useDispatch();
+
+    const searchHandler = (event) => {
+        event.preventDefault();
+        const item = event.target;
+        dispatch(fetchingUsers(db, item));
+    }
+
     return(
         <div className={search? "searchbar searchbar-open": "searchbar searchbar-collapse"}>
             <div className="search-icon">
@@ -11,9 +22,9 @@ const SearchBar = ({setSearch, search}) => {
                 <span className="searchbar-title">Filtrar búsqueda</span>
             </div>
             <div className="searchbar-body">
-                <form>
-                    <label htmlFor="name">Nombres</label>
-                    <input type="text" name="name" />
+                <form onSubmit={searchHandler}>
+                    <label htmlFor="nombre">Nombres</label>
+                    <input type="text" name="nombre" />
                     <label htmlFor="lastname">Apellidos</label>
                     <input type="text" name="lastname" />
                     <label htmlFor="id">Identificación(C.C)</label>
@@ -38,8 +49,8 @@ const SearchBar = ({setSearch, search}) => {
                     <label htmlFor="email">Correo electrónico</label>
                     <input type="email" name="email" />
                     <div className="button-group">
-                        <button type="button" className="filtrar">Filtrar</button>
-                        <button type="button" className="Limpiar">Limpiar</button>
+                        <button type="submit" className="filtrar">Filtrar</button>
+                        <button type="button" className="Limpiar" onClick={() => {dispatch(fetchingUsers(db, false))}}>Limpiar</button>
                     </div>
                 </form>
             </div>
