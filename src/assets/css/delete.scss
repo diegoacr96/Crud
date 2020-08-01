@@ -1,7 +1,6 @@
 .delete-alert{
-
     position: absolute;
-    margin-left: -50px;
+    // margin-left: -50px;
     padding: 2rem;
     background: white;
     border-radius: 5px;
@@ -45,7 +44,8 @@
 }
 @media (min-width: 610px){
     .delete-alert{
-        left: 40%;
+        top: 30%;
+        left: 30%;
         width: 20rem;
         .button-group{
             button{
@@ -70,7 +70,7 @@
 @media (max-width: 319px){
     .delete-alert{
         top: 15rem;
-
+        left: 0;
         width: auto;
         .button-group{
             button{

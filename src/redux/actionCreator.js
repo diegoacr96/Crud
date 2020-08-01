@@ -21,7 +21,6 @@ export const fetchingUsers = (db, item= null, startAt = false, endBefore = false
         querySnapshot.forEach((user) => {
             temp.push(user)
         })
-        console.log("length:", querySnapshot)
         dispatch(addUsers(temp));
     })
     .catch(err => dispatch(userErr(err)));
@@ -80,10 +79,23 @@ export const deleteUsers = (db, user) => dispatch => {
             }).catch(function(error) {
                 console.error("Error removing document: ", error);
                 dispatch(userErr(error));
-                
             });
         })
     });
+}
+
+export const fetchEditUser = (db, user, item) => dispatch => {
+    db.collection("usuarios").doc(user.id).update({
+        Nombre: item['name'].value,
+        Id: item['id'].value,
+        State: item['state'].value,
+        Tel: item['tel'].value,
+        Apellido: item['last-name'].value,
+        Rol: item['rol'].value,
+        Email: item['mail'].value
+    })
+    .then(() => dispatch(fetchingUsers(db)))
+    .catch((err) => dispatch(userErr(err)));
 }
 
 const userLoading = () => ({

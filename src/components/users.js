@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {fetchingUsers, creatingUsers, deleteUsers} from '../redux/actionCreator';
+import {fetchingUsers, creatingUsers, deleteUsers, fetchEditUser} from '../redux/actionCreator';
 
 const DeleteItem = ({delUser, setDel, del, db, dispatch}) => {
     document.onkeyup = (e) => e.key==="Escape"?setDel(false):null;
@@ -77,79 +77,57 @@ const Rols = ({users, table_header, setDel, setDelUser, setEdit, setEditUser}) =
     )
 }
 
-const EditUser = ({db, editableValue, editUser, setEdit, setEditableValue}) => {
-    if(editUser){
-        db.collection("usuarios").where("email", "==", editUser.Email).limit(1).get()
-        .then(users => {
-            users.forEach(user => {
-                setEditableValue({
-                    loading: false,
-                    err: null,
-                    user:{
-                        Nombre: user.Nombre,
-                        Apellido: user.Apellido,
-                        Id: user.Id,
-                        Rol: user.Rol,
-                        State: user.State,
-                        Tel: user.Tel,
-                        Email: user.Email
-                    }
-                })
-            })
-        })
-
-    }
-    if(editableValue.loading){
-        return(null)
-    }else if(editableValue.err){
-        return("err")
-    }else{
-        return(
-            <div className = "create-user">
-                <div className="create-header">
-                    Editar usuario
-                    <i className="fas fa-times" onClick={() => setEdit(false)}></i>
-                </div>
-                <form /* onSubmit={(values) => createUser(values)} */>
-                    <div className="row">
-                        <div className="col">
-                            <label htmlFor="name">Nombres</label>
-                            <input type="text" name="name" required />
-                            <label htmlFor="id">Identificación</label>
-                            <input type="number" name='id' required />
-                            <label htmlFor="state">Estado</label>
-                            <select name='state'>
-                                <option>Activo</option>
-                                <option>Inactivo</option>
-                            </select>
-                            <label htmlFor="tel">Telefono</label>
-                            <input type="tel" name='tel' required />
-                        </div>
-                        <div className="col">
-                            <label htmlFor="last-name">Apellidos</label>
-                            <input type="text" name="last-name" required />
-                            
-                            <label htmlFor="rol">Rol Asociado</label>
-                            <select name="rol">
-                                <option>Administrador</option>
-                                <option>Conductor</option>
-                                <option>Recolector</option>
-                            </select>
-                            <label htmlFor="pass">Contraseña</label>
-                            <input type="password" name='pass' required />
-                            
-                            <label htmlFor="mail">Correo Electrónico</label>
-                            <input type="Email" name="mail" required />
-                        </div>
-                    </div>
-                    <div className="button-group">
-                        <button type="submit" className="crear">Crear</button>
-                        <button type="button" className="cancel" onClick={() => setEdit(false)}>Cancelar</button>
-                    </div>
-                </form>
+const EditUser = ({editUser, setEdit, db}) => {
+    const dispatch=useDispatch();
+    console.log("edit user:", editUser.id);
+    return(
+        <div className = "create-user">
+            <div className="create-header">
+                Editar usuario
+                <i className="fas fa-times" onClick={() => setEdit(false)}></i>
             </div>
-        )
-    }
+            <form onSubmit={(event) => {
+                setEdit(false);
+                event.preventDefault();
+                let item=event.target;
+                dispatch(fetchEditUser(db, editUser, item));
+            }} >
+                <div className="row">
+                    <div className="col">
+                        <label htmlFor="name">Nombres</label>
+                        <input type="text" name="name" defaultValue={editUser.data().Nombre} required />
+                        <label htmlFor="id">Identificación</label>
+                        <input type="number" name='id' defaultValue={editUser.data().Id} required />
+                        <label htmlFor="state">Estado</label>
+                        <select name='state' defaultValue={editUser.data().State}>
+                            <option>Activo</option>
+                            <option>Inactivo</option>
+                        </select>
+                        <label htmlFor="tel">Telefono</label>
+                        <input type="tel" name='tel' defaultValue={editUser.data().Tel} required />
+                    </div>
+                    <div className="col">
+                        <label htmlFor="last-name">Apellidos</label>
+                        <input type="text" name="last-name" defaultValue={editUser.data().Apellido} required />
+                        <label htmlFor="rol">Rol Asociado</label>
+                        <select name="rol" defaultValue={editUser.data().Rol}>
+                            <option>Administrador</option>
+                            <option>Conductor</option>
+                            <option>Recolector</option>
+                        </select>
+                        <label htmlFor="pass">Contraseña</label>
+                        <input type="password" name='pass' />
+                        <label htmlFor="mail">Correo Electrónico</label>
+                        <input type="Email" name="mail" defaultValue={editUser.data().Email} required />
+                    </div>
+                </div>
+                <div className="button-group">
+                    <button type="submit" className="crear" >Editar</button>
+                    <button type="button" className="cancel" onClick={() => setEdit(false)}>Cancelar</button>
+                </div>
+            </form>
+        </div>
+    )
 }
 
 
@@ -160,14 +138,6 @@ const Users = ({bar, db, filters}) => {
     const [delUser, setDelUser] = React.useState(null);
     const [edit, setEdit] = React.useState(false);
     const [editUser, setEditUser] = React.useState(null);
-    const [editableValue, setEditableValue] = React.useState(
-        {
-            loading: true,
-            err: false,
-            user: {}
-        }
-    );
-
     const users = useSelector(state => state.Users);
 
 
@@ -177,13 +147,13 @@ const Users = ({bar, db, filters}) => {
         dispatch(fetchingUsers(db, false));
     }, [db, dispatch]), [db,dispatch]);
 
-    document.onkeyup = (e) => e.key==="Escape"?setCreate(false):null;
-    document.onkeyup = (e) => {
+    document.addEventListener('keyup', e => {
         if(e.key==="Escape"){
             setEdit(false);
             setCreate(false);
         }
-    }
+    })
+
     return(
         <div className={bar?"users-container users-open": "users-container users-collapse"} >
             <div className="users-header" >
@@ -211,6 +181,7 @@ const Users = ({bar, db, filters}) => {
                         <i className="fas fa-times" onClick={() => setCreate(false)}></i>
                     </div>
                     <form onSubmit={(event) => {
+                        setCreate(false);
                         event.preventDefault();
                         const item = event.target;
                         dispatch(creatingUsers(db, item));        
@@ -255,7 +226,11 @@ const Users = ({bar, db, filters}) => {
                 :""
             }
             <DeleteItem delUser={delUser} setDel={setDel} del={del} db={db} dispatch={dispatch} />
-            <EditUser db={db} editableValue={editableValue} editUser={editUser} setEdit={setEdit} setEditableValue={setEditableValue} />
+            {edit?
+                <EditUser db={db} editUser={editUser} setEdit={setEdit} db={db} />
+                :
+                null
+            }
             <div className="pagination">
                 <i className="fas fa-chevron-left" onClick={() => {dispatch(fetchingUsers(db, filters, null, users.users[0]))}}></i>
                 <i className="fas fa-chevron-right" onClick={() => {dispatch(fetchingUsers(db, filters, users.users[users.users.length-1]))}}></i>

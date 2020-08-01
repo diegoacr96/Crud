@@ -25,6 +25,7 @@ const Admin = ({db, firebase}) => {
     const dispatch = useDispatch();
 
     const searchHandler = (event) => {
+        setSearch(false);
         event.preventDefault();
         setFilters(event.target);
         dispatch(fetchingUsers(db, event.target));
