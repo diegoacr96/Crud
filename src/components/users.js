@@ -227,7 +227,7 @@ const Users = ({bar, db, filters}) => {
             }
             <DeleteItem delUser={delUser} setDel={setDel} del={del} db={db} dispatch={dispatch} />
             {edit?
-                <EditUser db={db} editUser={editUser} setEdit={setEdit} db={db} />
+                <EditUser db={db} editUser={editUser} setEdit={setEdit} />
                 :
                 null
             }

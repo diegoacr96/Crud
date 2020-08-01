@@ -616,10 +616,45 @@
 .searchbar {
   background: white;
   position: absolute;
-  right: 1rem;
 }
 .searchbar .search-icon {
   color: #00508c;
+}
+.searchbar .searchbar-header {
+  padding: 1.5rem 2rem;
+  color: #00508c;
+}
+.searchbar .searchbar-header .searchbar-title {
+  display: inline;
+}
+.searchbar .searchbar-body {
+  padding: 1rem 2rem;
+}
+.searchbar .searchbar-body form {
+  font-size: 0.75rem;
+  color: #919191;
+  display: flex;
+  flex-direction: column;
+}
+.searchbar .searchbar-body form input {
+  width: 100%;
+  height: 2rem;
+  padding: 12px 20px;
+  margin: 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-sizing: border-box;
+  box-shadow: 0 0 5px #ccc;
+}
+.searchbar .searchbar-body form select {
+  width: 100%;
+  height: 2rem;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  box-sizing: border-box;
+  box-shadow: 0 0 5px #ccc;
 }
 .searchbar .searchbar-body form .button-group {
   margin: 1rem 0;
@@ -655,54 +690,19 @@
 @media (min-width: 1360px) {
   .searchbar {
     top: 6rem;
+    right: 1rem;
     width: 19rem;
   }
   .searchbar .searchbar-header {
     padding: 1.5rem 2rem;
-    color: #00508c;
-  }
-  .searchbar .searchbar-header .searchbar-title {
-    display: inline;
-  }
-  .searchbar .searchbar-body {
-    padding: 1rem 2rem;
-  }
-  .searchbar .searchbar-body form {
-    color: #919191;
-    display: flex;
-    flex-direction: column;
-    font-size: 0.75rem;
-  }
-  .searchbar .searchbar-body form input {
-    color: #919191;
-    width: 100%;
-    height: 2rem;
-    padding: 12px 20px;
-    margin: 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    box-sizing: border-box;
-    box-shadow: 0 0 5px #ccc;
-  }
-  .searchbar .searchbar-body form select {
-    color: #919191;
-    width: 100%;
-    height: 2rem;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    box-sizing: border-box;
-    box-shadow: 0 0 5px #ccc;
   }
   .searchbar .search-icon {
     display: none;
   }
 }
-@media (max-width: 1359px) {
+@media (max-width: 1359px) and (min-width: 300px) {
   .searchbar-open {
     top: 6rem;
-    width: 16rem;
     box-shadow: 0 0 5px #ccc;
   }
   .searchbar-open .search-icon {
@@ -712,48 +712,58 @@
   }
   .searchbar-open .searchbar-header, .searchbar-open .searchbar-body {
     visibility: visible;
-  }
-  .searchbar-open .searchbar-header {
-    padding: 1.5rem 2rem;
-    color: #00508c;
-  }
-  .searchbar-open .searchbar-header .searchbar-title {
-    display: inline;
-  }
-  .searchbar-open .searchbar-body {
     padding: 1rem 2rem;
-  }
-  .searchbar-open .searchbar-body form {
-    color: #919191;
-    display: flex;
-    flex-direction: column;
-    font-size: 0.75rem;
-  }
-  .searchbar-open .searchbar-body form input {
-    color: #919191;
-    width: 100%;
-    height: 2rem;
-    padding: 12px 20px;
-    margin: 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    box-sizing: border-box;
-    box-shadow: 0 0 5px #ccc;
-  }
-  .searchbar-open .searchbar-body form select {
-    color: #919191;
-    width: 100%;
-    height: 2rem;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    box-sizing: border-box;
-    box-shadow: 0 0 5px #ccc;
   }
 
   .searchbar-collapse {
-    bottom: 1rem;
+    top: 8rem;
+    padding: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 3px;
+    box-shadow: 0 0 15px -5px #919191;
+  }
+  .searchbar-collapse .searchbar-header, .searchbar-collapse .searchbar-body {
+    display: none;
+  }
+}
+@media (max-width: 1300px) and (min-width: 700px) {
+  .searchbar-collapse {
+    top: 12rem;
+    right: 0;
+    width: auto;
+  }
+
+  .searchbar-open {
+    top: 30%;
+    right: 30%;
+    width: 19rem;
+  }
+}
+@media (max-width: 699px) and (min-width: 301px) {
+  .searchbar-collapse {
+    width: 100%;
+    left: 0;
+  }
+
+  .searchbar-open {
+    width: 90%;
+    margin: 0 1rem;
+  }
+}
+@media (max-width: 299px) {
+  .searchbar-open {
+    top: 1rem;
+    left: 0;
+  }
+  .searchbar-open .search-icon {
+    display: block;
+    padding: 1rem 2rem;
+    color: #00508c;
+  }
+
+  .searchbar-collapse {
+    top: 8rem;
     padding: 1rem;
     width: 1.5rem;
     height: 1.5rem;
