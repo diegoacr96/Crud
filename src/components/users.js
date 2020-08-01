@@ -2,24 +2,21 @@ import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchingUsers, creatingUsers, deleteUsers, fetchEditUser} from '../redux/actionCreator';
 
-const DeleteItem = ({delUser, setDel, del, db, dispatch}) => {
-    document.onkeyup = (e) => e.key==="Escape"?setDel(false):null;
+const DeleteItem = ({delUser, setDel, db, dispatch}) => {
+
     const deleteDocument = (delUser) => {
+        setDel(false);
         dispatch(deleteUsers(db, delUser));
     }
-    if(del){
-        return(
-            <div className="delete-alert">
-                <div className="delete-header">Estás seguro que desear borrar a {delUser.Nombre + " " + delUser.Apellido}</div>
-                <div className="button-group">
-                    <button type="button" className="delete" onClick={() => deleteDocument(delUser)}>Borrar</button>
-                    <button type="button" className="cancel" onClick={() => setDel(false)}>Cancelar</button>
-                </div>
+    return(
+        <div className="delete-alert">
+            <div className="delete-header">Estás seguro que desear borrar a {delUser.Nombre + " " + delUser.Apellido}</div>
+            <div className="button-group">
+                <button type="button" className="delete" onClick={() => deleteDocument(delUser)}>Borrar</button>
+                <button type="button" className="cancel" onClick={() => setDel(false)}>Cancelar</button>
             </div>
-        )
-    }else{
-        return ""
-    }
+        </div>
+    )
 }
 
 
@@ -46,7 +43,7 @@ const Rols = ({users, table_header, setDel, setDelUser, setEdit, setEditUser}) =
                         }}></i>
                         <i className="fas fa-trash-alt" onClick={() =>{
                             setDel(true); 
-                            setDelUser(usuario);
+                            setDelUser(usuario.data());
                             }} >
                         </i>
                     </td>
@@ -130,52 +127,10 @@ const EditUser = ({editUser, setEdit, db}) => {
     )
 }
 
-
-const Users = ({bar, db, filters}) => {
-    const table_header = ["Nombre", "Apellidos", "Identificación(C.C)", "Rol asociado", "Estado", "Telefono", "Correo electrónico", "Acción"]
-    const [create, setCreate] = React.useState(false);
-    const [del, setDel] = React.useState(false);
-    const [delUser, setDelUser] = React.useState(null);
-    const [edit, setEdit] = React.useState(false);
-    const [editUser, setEditUser] = React.useState(null);
-    const users = useSelector(state => state.Users);
-
-
+const CreateUser = ({db, setCreate}) => {
     const dispatch = useDispatch();
-
-    React.useEffect(React.useCallback(() => {
-        dispatch(fetchingUsers(db, false));
-    }, [db, dispatch]), [db,dispatch]);
-
-    document.addEventListener('keyup', e => {
-        if(e.key==="Escape"){
-            setEdit(false);
-            setCreate(false);
-        }
-    })
-
     return(
-        <div className={bar?"users-container users-open": "users-container users-collapse"} >
-            <div className="users-header" >
-                <div className="users-title">
-                    <i className="fas fa-users"></i>
-                    Usuarios existentes
-                </div>
-                <button className="create" onClick={() => setCreate(true)}>
-                    Crear
-                </button>
-            </div>
-            <Rols users={users} table_header={table_header} 
-                setDel={setDel} 
-                setDelUser={setDelUser}
-                setEdit={setEdit}
-                setEditUser={setEditUser} 
-            />
-            <div className="pagination">
-                
-            </div>
-            {create?
-                <div className = "create-user">
+        <div className = "create-user">
                     <div className="create-header">
                         Crear usuario
                         <i className="fas fa-times" onClick={() => setCreate(false)}></i>
@@ -223,9 +178,64 @@ const Users = ({bar, db, filters}) => {
                         </div>
                     </form>
                 </div>
-                :""
+    )
+}
+
+
+const Users = ({bar, db, filters}) => {
+    const table_header = ["Nombre", "Apellidos", "Identificación(C.C)", "Rol asociado", "Estado", "Telefono", "Correo electrónico", "Acción"]
+    const [create, setCreate] = React.useState(false);
+    const [del, setDel] = React.useState(false);
+    const [delUser, setDelUser] = React.useState(null);
+    const [edit, setEdit] = React.useState(false);
+    const [editUser, setEditUser] = React.useState(null);
+    const users = useSelector(state => state.Users);
+
+
+    const dispatch = useDispatch();
+
+    React.useEffect(React.useCallback(() => {
+        dispatch(fetchingUsers(db, false));
+    }, [db, dispatch]), [db,dispatch]);
+
+    document.addEventListener('keyup', e => {
+        if(e.key==="Escape"){
+            setEdit(false);
+            setCreate(false);
+            setDel(false)
+        }
+    })
+
+    return(
+        <div className={bar?"users-container users-open": "users-container users-collapse"} >
+            <div className="users-header" >
+                <div className="users-title">
+                    <i className="fas fa-users"></i>
+                    Usuarios existentes
+                </div>
+                <button className="create" onClick={() => setCreate(true)}>
+                    Crear
+                </button>
+            </div>
+            <Rols users={users} table_header={table_header} 
+                setDel={setDel} 
+                setDelUser={setDelUser}
+                setEdit={setEdit}
+                setEditUser={setEditUser} 
+            />
+            <div className="pagination">
+                
+            </div>
+            {create?
+                <CreateUser db={db} setCreate={setCreate} />
+                :
+                null
             }
-            <DeleteItem delUser={delUser} setDel={setDel} del={del} db={db} dispatch={dispatch} />
+            {del?
+                <DeleteItem delUser={delUser} setDel={setDel} del={del} db={db} dispatch={dispatch} />
+                :
+                null
+            }
             {edit?
                 <EditUser db={db} editUser={editUser} setEdit={setEdit} />
                 :
